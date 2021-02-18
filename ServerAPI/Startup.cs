@@ -38,6 +38,7 @@ namespace ServerAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerAPI", Version = "v1" });
             });
+            services.AddCors();
 
         }
 
@@ -54,6 +55,8 @@ namespace ServerAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseAuthorization();
 
