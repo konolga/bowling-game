@@ -38,8 +38,10 @@ namespace ServerAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerAPI", Version = "v1" });
             });
-            services.AddCors();
 
+            services.AddCors();
+            services.AddScoped<IUsersRepo, UsersRepo>();
+            services.AddScoped<IScoresRepo, ScoresRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +57,10 @@ namespace ServerAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(x => x.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .WithOrigins("https://localhost:4200"));
 
             app.UseAuthorization();
 

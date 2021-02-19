@@ -10,12 +10,10 @@ using ServerAPI.Infrastructure;
 
 namespace ServerAPI.Data
 {
-    [ApiController]
-    [Route("[users]")]
-    public class UserRepo : IUsersRepo
+    public class UsersRepo : IUsersRepo
     {
         private readonly DataContext _context;
-        public UserRepo(DataContext context)
+        public UsersRepo(DataContext context)
         {
             _context = context;
         }
@@ -29,7 +27,7 @@ namespace ServerAPI.Data
             }
             catch
             {
-                throw new Exception($"Updating user {user.Id} failed on save");
+                throw new Exception($"Adding user {user.Username} failed on save");
             }
         }
 
@@ -84,6 +82,7 @@ namespace ServerAPI.Data
             try
             {
                return await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+               
             }
             catch
             {

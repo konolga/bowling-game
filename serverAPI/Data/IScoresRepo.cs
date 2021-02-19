@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace ServerAPI.Data
 {
-    public interface IScoreRepo
+    public interface IScoresRepo
     {
-        Task<Score> AddScore(Score score);
+        Task AddScore(Score score);
         Task<List<Score>> GetScoreByUserId(int id);
         Task DeleteScore(int id);
     }

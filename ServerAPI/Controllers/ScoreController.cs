@@ -9,36 +9,34 @@ using ServerAPI.Infrastructure;
 using System.Collections.Generic;
 
 namespace ServerAPI.Controllers
-{
-    [ApiController]
-    [Route("[scores]")]
+{   [ApiController]
+    [Route("api/[controller]")]
     public class ScoresController : ControllerBase
     {
-        private readonly IScoreRepo _repo;
+        private readonly IScoresRepo _repo;
         private readonly ILogger<ScoresController> _logger;
-        public ScoresController(IScoreRepo repo, ILogger<ScoresController> logger)
+        public ScoresController(IScoresRepo repo, ILogger<ScoresController> logger)
         {
             _repo = repo;
             _logger = logger;
         }
 
-        [HttpPost("{}")]
-        public async Task<IActionResult> CreateScore(Score score)
+        [HttpPost]
+        public async Task<IActionResult> CreateScore([FromBody] Score score)
         {
             await _repo.AddScore(score);
             return Ok();
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetScoreByUserId(int userId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetScoreByUserId(int id)
         {
             var scores =  new List<Score>();
-            scores = await _repo.GetScoreByUserId(userId);
+            scores = await _repo.GetScoreByUserId(id);
             return Ok(scores);
         }
 
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteScore(int id)
         {
             await _repo.DeleteScore(id);

@@ -11,12 +11,11 @@ using ServerAPI.Infrastructure;
 
 namespace ServerAPI.Data
 {
-    [ApiController]
-    [Route("[scores]")]
-    public class ScoreRepo : IScoreRepo
+
+    public class ScoresRepo : IScoresRepo
     {
         private readonly DataContext _context;
-        public ScoreRepo(DataContext context)
+        public ScoresRepo(DataContext context)
         {
             _context = context;
         }
@@ -58,7 +57,7 @@ namespace ServerAPI.Data
             }
         }
 
-        public async Task DeleteScore(string id)
+        public async Task DeleteScore(int id)
         {
             try
             {
@@ -71,5 +70,6 @@ namespace ServerAPI.Data
                 throw new Exception($"Failed to delete score id: {id}");
             }
         }
+
     }
 }
