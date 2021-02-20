@@ -9,12 +9,25 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
   userUrl = environment.userAPI;
+  currentUser: User;
+
   constructor(private http: HttpClient) {}
 
   auth(user: User) {
     var formData: any = new FormData();
     formData.append('username', user.Username);
+    return this.http.post(this.userUrl, formData).pipe(
+      map((response: any) => {
+        if (response) {
+          this.currentUser = new User();
+          this.currentUser.Username = response.username;
+          this.currentUser.Id = response.id;
+        }
+      })
+    );
+  }
 
-    return this.http.post(this.userUrl, formData);
+  loggedIn() {
+    return this.currentUser != null;
   }
 }
