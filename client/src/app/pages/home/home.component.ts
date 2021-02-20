@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
 import { User } from '@models/user';
 import { AlertifyService } from '@services/alertify.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
     private alertify: AlertifyService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {

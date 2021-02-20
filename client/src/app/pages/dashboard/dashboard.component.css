@@ -1,0 +1,24 @@
+h4 {
+  text-align: center;
+}
+.form-group-container {
+  justify-content: center;
+  display: flex;
+}
+
+.form-control,
+.btn-primary {
+  display: inline-block;
+  margin: 0 15px;
+}
+.form-control {
+  width: 100px;
+}
+
+.row {
+  margin: 25px;
+}
+
+.btn {
+  vertical-align: top;
+}
