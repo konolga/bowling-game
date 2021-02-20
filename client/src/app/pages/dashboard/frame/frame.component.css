@@ -1,0 +1,22 @@
+.pagination{
+  width: 100px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.page-item {
+  border: solid #df691a 2px;
+  padding: 10px;
+}
+
+.pin{
+  width: 50%;
+}
+
+.result{
+  width: 100%;
+}
+
+.bonus-container .pin
+{
+  width: 33.3%;
+}

@@ -1,0 +1,12 @@
+
+  <ul class="pagination pagination-lg"
+  [ngClass]="{ 'bonus-container' : frameData?.ThirdPin }">
+    <li class="page-item pin" >{{frameData?.FirstPin}}</li>
+    <li class="page-item pin" >{{frameData?.SecondPin}}</li>
+    <li *ngIf="frameData?.ThirdPin" class="page-item pin third">
+      {{frameData.ThirdPin}}</li>
+    <div class="page-item result">{{frameData?.Result}}</div>
+  </ul>
+
+
+
