@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FrameData } from '@models/frameData';
 import { AlertifyService } from '@services/alertify.service';
-import { Router } from '@angular/router';
 import { GameService } from '@services/game.service';
 import { Score } from '@models/score';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -29,7 +28,6 @@ export class DashboardComponent implements OnInit {
   constructor(
     private gameService: GameService,
     private alertify: AlertifyService,
-    private router: Router,
     private formBuilder: FormBuilder
   ) {}
 
@@ -47,6 +45,7 @@ export class DashboardComponent implements OnInit {
     this.isGameOver = false;
     this.bonusBalls = 0;
   }
+
   removeUsedOptions(usedPins: number): void {
     this.options = [...Array(availablePins - usedPins)].map((v, i) => 0 + i);
   }
@@ -63,6 +62,13 @@ export class DashboardComponent implements OnInit {
     } else {
       this.moveToNextFrame();
     }
+    if (this.isGameOver) {
+      this.saveScore();
+    }
+  }
+
+  saveScore() {
+    this.gameService.saveScore(this.frames[this.frames.length - 1].Result);
   }
 
   isBonusGame(): boolean {
@@ -125,7 +131,7 @@ export class DashboardComponent implements OnInit {
   }
 
   moveToNextFrame() {
-    let optionsToRemove = 0;
+    let optionsToRemove = this.currentFrame.FirstPin || 0;
     this.nextPinNumber = 'second';
     this.nextFrameName = this.frames.length;
     if (this.currentFrame.SecondPin >= 0) {
@@ -172,7 +178,9 @@ export class DashboardComponent implements OnInit {
     if (!this.isGameOver) {
       this.message = `Enter your ${this.nextPinNumber} pin for ${this.nextFrameName} Frame`;
     } else {
-      this.message = `Game over`;
+      this.message = `Game over, your final score is ${
+        this.frames[this.frames.length - 1].Result
+      }`;
     }
   }
   sumOfPinsInFrame(array: number[]) {
@@ -184,9 +192,14 @@ export class DashboardComponent implements OnInit {
   }
 
   isStrike(firstNum: number) {
-    return firstNum === 10;
+    let isStrike = firstNum === 10;
+    isStrike ? this.alertify.success(`Strike!`) : null;
+    return isStrike;
   }
+
   isSpare(firstNum: number, secondNum: number) {
+    let isSpare = firstNum + secondNum === 10;
+    isSpare ? this.alertify.warning(`Spare!`) : null;
     return firstNum + secondNum === 10;
   }
 }

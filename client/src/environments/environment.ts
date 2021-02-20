@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   userAPI: 'https://localhost:5001/api/Users',
-  scoreAPI: 'https://localhost:5001/api/scores/',
+  scoreAPI: 'https://localhost:5001/api/Scores/',
 };
 
 /*

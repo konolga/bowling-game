@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Score } from '@models/score';
+import { AuthService } from '@services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
+  scoreUrl = environment.scoreAPI;
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  constructor() { }
+  saveScore(total: number) {
+    let formData: any = new FormData();
+    if (this.authService.loggedIn() && this.authService.currentUser != null) {
+      let score: Score = new Score();
+      score.TotalScore = total;
+      score.UserId = this.authService.currentUser.Id;
 
-  private rolls: number[] = new Array(21).fill(0);
-  private currentRoll = 0;
-
-  roll(pins: number) {
-    this.rolls[this.currentRoll++] = pins;
+      formData.append('score', JSON.stringify(score));
+      return this.http.post(this.scoreUrl, formData);
+    }
   }
-
-
 }

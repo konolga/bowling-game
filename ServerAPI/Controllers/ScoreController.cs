@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 using ServerAPI.Data;
 using ServerAPI.Infrastructure;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ServerAPI.Controllers
 {   [ApiController]
@@ -22,8 +25,9 @@ namespace ServerAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateScore([FromBody] Score score)
+        public async Task<IActionResult> CreateScore([FromForm] string jsonScore)
         {
+            var score = JsonSerializer.Deserialize<Score>(jsonScore);
             await _repo.AddScore(score);
             return Ok();
         }
@@ -31,8 +35,7 @@ namespace ServerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetScoreByUserId(int id)
         {
-            var scores =  new List<Score>();
-            scores = await _repo.GetScoreByUserId(id);
+            var scores = await _repo.GetScoreByUserId(id);
             return Ok(scores);
         }
 

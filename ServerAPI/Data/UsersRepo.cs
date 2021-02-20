@@ -22,13 +22,14 @@ namespace ServerAPI.Data
 
             try
             {
-                await _context.Users.AddAsync(user);
+               var reply =  await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
             }
             catch
             {
                 throw new Exception($"Adding user {user.Username} failed on save");
             }
+
         }
 
         public async Task<bool> UpdateUser(User user)

@@ -21,17 +21,18 @@ namespace ServerAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromForm] string username)
         {
-            if (await _repo.GetUserByUsername(username) != null) return Ok();
-            var user = new User()
+            var user = await _repo.GetUserByUsername(username);
+            if (user == null)
             {
-                Username = username
+                user = new User() {Username = username};
+                await _repo.CreateUser(user);
             };
-            await _repo.CreateUser(user);
-            return Ok();
+           
+            return Ok(user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromBody] User user, int id)
+        public async Task<IActionResult> UpdateUser([FromForm] User user, int id)
         {
             if (await _repo.UpdateUser(user))
                 return Ok();
