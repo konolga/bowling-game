@@ -28,7 +28,7 @@ namespace ServerAPI.Data
             }
             catch
             {
-                throw new Exception($"Updating user {score.Id} failed on save");
+                throw new Exception($"Saving user {score.Id} failed on save");
             }
         }
 

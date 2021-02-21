@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ServerAPI.Data;
 using ServerAPI.Infrastructure;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
+
 
 namespace ServerAPI.Controllers
-{   [ApiController]
+{
+    [ApiController]
     [Route("api/[controller]")]
     public class ScoresController : ControllerBase
     {
@@ -25,11 +23,22 @@ namespace ServerAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateScore([FromForm] string jsonScore)
+        public async Task<IActionResult> CreateScore([FromForm] string score)
         {
-            var score = JsonSerializer.Deserialize<Score>(jsonScore);
-            await _repo.AddScore(score);
+            Score scoreToSave = null;
+            try
+            {
+                scoreToSave = JsonSerializer.Deserialize<Score>(score);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Couldn't parse Score");
+            }
+
+            if (scoreToSave == null) return BadRequest();
+            await _repo.AddScore(scoreToSave);
             return Ok();
+
         }
 
         [HttpGet("{id}")]
