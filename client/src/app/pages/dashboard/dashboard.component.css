@@ -1,4 +1,11 @@
-h4 {
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-header {
   text-align: center;
 }
 .form-group-container {
@@ -17,6 +24,7 @@ h4 {
 
 .row {
   margin: 25px;
+  justify-content: center;
 }
 
 .btn {

@@ -1,5 +1,32 @@
-<div class="row">
+<div class="jumbotron">
+ <div class="row">
   <app-frame *ngFor="let frame of frames" [frameData]="frame"> </app-frame>
+</div>
+</div>
+<div class="card border-success">
+  <div class="card-header">{{ message }}</div>
+  <div class="card-body">
+    <h4 class="card-title"></h4>
+    <div class="form-group-container">
+      <form
+        *ngIf="!isGameOver"
+        class="form-group"
+        [formGroup]="userInputs"
+        (ngSubmit)="onSubmit()"
+      >
+        <select class="form-control" formControlName="pin" type="number">
+          <option disabled>Select Pin</option>
+          <option *ngFor="let pin of options" [ngValue]="pin">
+            {{ pin }}
+          </option>
+        </select>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+      <div *ngIf="isGameOver" class="form-group-container">
+        <button class="btn btn-success" (click)="initGame()">Play again</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="progress">
@@ -12,20 +39,3 @@
     [style.width.%]="frames.length * 10"
   ></div>
 </div>
-<h4>{{ message }}</h4>
-<div class="form-group-container">
-  <form *ngIf="!isGameOver" class="form-group" [formGroup]="userInputs" (ngSubmit)="onSubmit()">
-    <select class="form-control" formControlName="pin" type="number">
-      <option disabled>Select Pin</option>
-      <option *ngFor="let pin of options" [ngValue]="pin">
-        {{ pin }}
-      </option>
-    </select>
-    <button class="btn btn-primary" type="submit">Submit</button>
-  </form>
-  <div *ngIf="isGameOver" class="form-group-container">
-    <button class="btn btn-success" (click)="initGame()">Play again</button>
-  </div>
-  <button class="btn btn-success" (click)="saveScore()">Save</button>
-</div>
-
