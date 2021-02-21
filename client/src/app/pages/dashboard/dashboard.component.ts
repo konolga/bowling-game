@@ -68,7 +68,11 @@ export class DashboardComponent implements OnInit {
   }
 
   saveScore() {
-    this.gameService.saveScore(this.frames[this.frames.length - 1].Result);
+    this.gameService.saveScore(this.frames[this.frames.length - 1].Result).subscribe(response  => {
+      this.alertify.success(`We saved your result history`);
+    }, error => {
+
+    });
   }
 
   isBonusGame(): boolean {
