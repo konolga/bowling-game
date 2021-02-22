@@ -55,7 +55,7 @@ namespace ServerAPI.Data
                            {
                                u.Username,
                                s.TotalScore
-                           }).Take(10).ToList();
+                           }).Take(topNumber).ToList();
             }
             catch (Exception)
             {
