@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace ServerAPI.Data
 
             try
             {
-               var reply =  await _context.Users.AddAsync(user);
+                var reply = await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
             }
             catch
@@ -45,24 +46,7 @@ namespace ServerAPI.Data
             }
         }
 
-        public async Task<List<User>> GetTopUsers(int topNumber)
-        {
-            try
-            {
-                return await _context.Users
-                .Join(_context.Scores
-                .OrderByDescending(score => score.TotalScore)
-                .Take(topNumber)
-                .Select(score => score.UserId)
-                .ToList(), u => u.Id, id => id, (u, id) => u)
-                .ToListAsync();
-            }
-            catch
-            {
-                throw new Exception($"Getting top {topNumber} players failed");
-            }
 
-        }
 
         public async Task DeleteUser(string id)
         {
@@ -72,7 +56,7 @@ namespace ServerAPI.Data
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 throw new Exception($"Failed to delete user id: {id}");
             }
@@ -82,10 +66,10 @@ namespace ServerAPI.Data
         {
             try
             {
-               return await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
-               
+                return await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+
             }
-            catch
+            catch (Exception ex)
             {
                 throw new Exception($"Failed to get user username: {username}");
             }

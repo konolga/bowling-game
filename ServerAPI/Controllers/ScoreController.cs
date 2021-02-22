@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServerAPI.Data;
@@ -40,6 +42,16 @@ namespace ServerAPI.Controllers
             return Ok();
 
         }
+
+
+        [HttpGet("top/{topNumber}")]
+        public IActionResult GetTopUsers(int topNumber)
+        {
+            var results =  _repo.GetTopResults(topNumber);
+            string jsonRes = JsonSerializer.Serialize(results);
+            return Ok(jsonRes);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetScoreByUserId(int id)

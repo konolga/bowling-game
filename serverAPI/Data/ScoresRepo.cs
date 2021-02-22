@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using ServerAPI.Data;
 using ServerAPI.Infrastructure;
 
 
@@ -23,6 +20,7 @@ namespace ServerAPI.Data
         {
             try
             {
+                score.CreationTime = DateTime.Now;
                 await _context.Scores.AddAsync(score);
                 await _context.SaveChangesAsync();
             }
@@ -42,6 +40,28 @@ namespace ServerAPI.Data
             {
                 throw new Exception($"Failed to get score id: {id}");
             }
+        }
+
+        public IEnumerable<object> GetTopResults(int topNumber)
+        {
+
+            try
+            { 
+                return (from u in _context.Users
+                           from s in _context.Scores
+                           where u.Id == s.UserId
+                           orderby s.TotalScore descending
+                           select new
+                           {
+                               u.Username,
+                               s.TotalScore
+                           }).Take(10).ToList();
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Getting top {topNumber} players failed");
+            }
+
         }
 
         public async Task<bool> UpdateScore(Score score)

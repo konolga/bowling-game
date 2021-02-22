@@ -40,13 +40,6 @@ namespace ServerAPI.Controllers
             return BadRequest($"Updating user id {id} failed on save");
         }
 
-        [HttpGet("top/{topNumber}")]
-        public async Task<IActionResult> GetTopUsers(int topNumber)
-        {
-            List<User> users = await _repo.GetTopUsers(topNumber);
-            return Ok(users);
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
