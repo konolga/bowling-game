@@ -1,1 +1,17 @@
-<p>top-scores works!</p>
+<div  class="table-container">
+  <h2>Top players</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr class="table-primary">
+        <th scope="col">Username</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let score of scores" class="table-dark">
+        <th scope="row">{{ score.Username }}</th>
+        <td>{{ score.TotalScore }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
