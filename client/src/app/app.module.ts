@@ -7,6 +7,7 @@ import { PagesModule } from '@pages/pages.module';
 import { SharedModule } from '@shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { FormsModule  } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +18,8 @@ import { FormsModule  } from '@angular/forms';
     PagesModule,
     SharedModule,
     CoreModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent],
