@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FrameData } from '@models/frameData';
 import { AlertifyService } from '@services/alertify.service';
 import { GameService } from '@services/game.service';
-import { Score } from '@models/score';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-const availablePins: number = 11; // with 0
-const availableGames: number = 10;
+const NUM_PINS: number = 11; // with 0
+const NUM_GAMES: number = 10;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -47,7 +46,7 @@ export class DashboardComponent implements OnInit {
   }
 
   removeUsedOptions(usedPins: number): void {
-    this.options = [...Array(availablePins - usedPins)].map((v, i) => 0 + i);
+    this.options = [...Array(NUM_PINS - usedPins)].map((v, i) => 0 + i);
   }
 
   onSubmit() {
@@ -68,7 +67,8 @@ export class DashboardComponent implements OnInit {
   }
 
   saveScore() {
-    this.gameService.saveScore(this.frames[this.frames.length - 1].Result).subscribe(response  => {
+    this.gameService.saveScore(this.frames[this.frames.length - 1].Result)
+      .subscribe(response => {
       this.alertify.success(`We saved your result history`);
     }, error => {
 
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
       this.nextFrameName++;
       optionsToRemove = 0;
     }
-    if (this.nextFrameName > availableGames) {
+    if (this.nextFrameName > NUM_GAMES) {
       this.isGameOver = true;
       this.currentFrame = null;
     }
