@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit {
     this.removeUsedOptions(0);
     this.isGameOver = false;
     this.bonusBalls = 0;
+    this.isBonusFrameInit = false;
   }
 
   removeUsedOptions(usedPins: number): void {
